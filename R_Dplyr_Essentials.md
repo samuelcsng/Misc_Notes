@@ -3,7 +3,7 @@ https://www.youtube.com/watch?v=Gvhkp-Yw65U&amp;t=132s
 
 
 ## COLUMN
-- select()
+- **select()**
 - mutate()
 
 ## ROW
