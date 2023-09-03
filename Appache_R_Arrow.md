@@ -55,9 +55,9 @@ ds %>% filter / select / mutate / group_by / summarise %>% collect() %>% print()
 
 ### Dataset options
 - open_dataset(..., schema = schema(...))
-1. Explicitly declare column names and data types
+> Explicitly declare column names and data types
 - open_dataset(..., partitioning = ...)
-1. Explicitly declare partition format
+> Explicitly declare partition format
 
 ### Writing Datasets
 ds %>% group_by(...) %>% filter / select %>% ... %>% write_dataset("data_path", format = "parquet" / "feather" / "csv")
