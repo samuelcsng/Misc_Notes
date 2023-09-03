@@ -1,1 +1,2 @@
-
+- from youtube, packages webs, ...
+- Notes, VIP points
