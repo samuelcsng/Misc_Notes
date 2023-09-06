@@ -24,3 +24,20 @@ writeLines(unlist(log.txt))
 # 8: 1.001 sec elapsed
 # 9: 1.001 sec elapsed
 # 10: 1 sec elapsed
+
+
+library(tictoc)
+tic.clearlog()
+
+tic("message")
+...
+code
+...
+toc(log = TRUE, quiet = FALSE)
+
+log.txt <- tic.log(format = TRUE)
+tic.clearlog()
+log.txt |> unlist() |> writeLines()
+
+
+
