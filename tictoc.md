@@ -11,7 +11,7 @@ log.lst <- tic.log(format = FALSE)\
 tic.clearlog()
 
 timings <- unlist(lapply(log.lst, function(x) x$toc - x$tic))\
-mean(timings)\
+mean(timings)
 # [1] 1.001
 writeLines(unlist(log.txt))
 # 1: 1.002 sec elapsed
