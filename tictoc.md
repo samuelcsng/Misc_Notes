@@ -1,17 +1,17 @@
-## Timing in a loop and analyzing the results later using tic.log().
-tic.clearlog()
-for (x in 1:10)
-{
-   tic(x)
-   Sys.sleep(1)
-   toc(log = TRUE, quiet = TRUE)
-}
-log.txt <- tic.log(format = TRUE)
-log.lst <- tic.log(format = FALSE)
+# Timing in a loop and analyzing the results later using tic.log().
+tic.clearlog()\
+for (x in 1:10)\
+{\
+   tic(x)\
+   Sys.sleep(1)\
+   toc(log = TRUE, quiet = TRUE)\
+}\
+log.txt <- tic.log(format = TRUE)\
+log.lst <- tic.log(format = FALSE)\
 tic.clearlog()
 
-timings <- unlist(lapply(log.lst, function(x) x$toc - x$tic))
-mean(timings)
+timings <- unlist(lapply(log.lst, function(x) x$toc - x$tic))\
+mean(timings)\
 # [1] 1.001
 writeLines(unlist(log.txt))
 # 1: 1.002 sec elapsed
@@ -26,17 +26,17 @@ writeLines(unlist(log.txt))
 # 10: 1 sec elapsed
 
 
-library(tictoc)
+library(tictoc)\
 tic.clearlog()
 
-tic("message")
-...
-code
-...
+tic("message")\
+...\
+code\
+...\
 toc(log = TRUE, quiet = FALSE)
 
-log.txt <- tic.log(format = TRUE)
-tic.clearlog()
+log.txt <- tic.log(format = TRUE)\
+tic.clearlog()\
 log.txt |> unlist() |> writeLines()
 
 
