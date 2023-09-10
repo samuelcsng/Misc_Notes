@@ -36,6 +36,7 @@ https://dbplyr.tidyverse.org/articles/translation-verb.html
 ---
 
 ## Lesson 5 – SQL databases and R
+https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html
 https://datacarpentry.org/R-ecology-lesson/reference.html#glossary
 
 - dir.create()
