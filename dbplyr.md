@@ -33,3 +33,25 @@ https://dbplyr.tidyverse.org/articles/translation-verb.html
 - semi_join() > ...
 - intersect() > ...
 - setdiff()
+---
+
+## Lesson 5 – SQL databases and R
+https://datacarpentry.org/R-ecology-lesson/reference.html#glossary
+
+- dir.create()
+- download.file()
+- dbConnect()
+- SQLite()
+- src_dbi()
+- **tbl()** - connect to a table within a database
+  - Querying the database with the **SQL syntax**
+    - tbl(con, sql("SELECT * FROM tableName))
+    - **sql()** - combine character vectors into a single SQL expression
+  - Querying the database with the **dplyr syntax**
+    - tbl(con, tableName) %>% filter, select, mutate, group_by, summarise ...
+  - lazy evaluation
+- show_query()
+- collect()
+- src_sqlite()
+- copy_to()
+- DBI::dbDisconnect(con)
