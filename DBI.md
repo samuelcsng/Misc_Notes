@@ -1,7 +1,8 @@
 https://dbplyr.tidyverse.org/reference/tbl.src_dbi.html
 
 library(DBI)\
-con <- dbConnect(RSQLite::SQLite(), dbname = ":memory:")
+con <- dbConnect(RSQLite::SQLite(), dbname = ":memory:")\
+#**PASSWORD storage**
 
 dbWriteTable(con, "mtcars", mtcars)\
 dbListTables(con)\
@@ -9,6 +10,8 @@ dbListFields(con, "mtcars")
 
 dbReadTable(con, "mtcars")
 
+dbGetQuery()\
+#**EQUIVALENT TO**\
 res <- dbSendQuery(con, "SELECT * FROM mtcars WHERE cyl = 4")\
 dbFetch(res)\
 dbClearResult(res)
@@ -18,6 +21,9 @@ dbDisconnect(con)
 ---
 - dbGetQuery() = dbSendQuery() + dbFetch() + dbClearResult()
 - tbl(con, "tablename")
+- compare:
+  - deGetQuery(con, "SQL_syntax")
+  - tbl(con, sql("SQL_syntax"))
 
 library(dplyr)
 
