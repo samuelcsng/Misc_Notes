@@ -1,3 +1,9 @@
+# R for Data Science (2e)
+https://r4ds.hadley.nz/arrow
+
+# Apache Arrow R Cookbook
+https://arrow.apache.org/cookbook/r/index.html
+
 # Get started with Arrow
 https://arrow.apache.org/docs/r/articles/arrow.html
 - **arrow_table()** create Table *manually* ( vs data.frame() )
