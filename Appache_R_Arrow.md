@@ -1,5 +1,23 @@
+# Get started with Arrow
+https://arrow.apache.org/docs/r/articles/arrow.html
+- **arrow_table()** create Table *manually* ( vs data.frame() )
+  - individual columns in Arrow Table represented as Chunked Arrays, 1-D data structures (analogous to vectors in R)
+  - convert Table to data frame: **as.data.frame(table)**
+- **Table** class (in-memory)
+  - individual file
+  - **read_parquet()**, **read_csv_arrow()**
+    - default: return data frame
+    - for Arrow Table, argument: **as_data_frame = FALSE**
+- **Dataset** class(larger-than-memory and multi-files)
+  - multi-file data sets
+  - df %>% group_by(...) %>% **write_dataset**(dataset_path) (default Parquet format)
+  - list.files(path, recursive = TRUE)
+  - **open_dataset()**
+- Analyzing Arrow data with dplyr
+  - ds %>% group_by / summarize / filter / arrange / ... %>% **collect()** or **compute()**
+  - lazy evaluation
+
 # Apache R Arrow
-https://arrow.apache.org/docs/r/articles/dataset.html#partitioning-performance-considerations
 - library(arrow, warn.conflicts = FALSE)
 - library(dplyr, warn.conflicts = FALSE)
 
@@ -87,6 +105,8 @@ ds %>% group_by(...) %>% filter / select %>% ... %>% write_dataset("data_path", 
 - Hive-style partitioning
 
 ### Partitioning performance considerations
+https://arrow.apache.org/docs/r/articles/dataset.html#partitioning-performance-considerations
+
 - Avoid files smaller than 20MB and larger than 2GB
 - Avoid partitioning layouts with more than 10,000 distinct partitions
 
