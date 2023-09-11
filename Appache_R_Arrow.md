@@ -1,9 +1,17 @@
+---
 # R for Data Science (2e)
 https://r4ds.hadley.nz/arrow
 
+---
 # Apache Arrow R Cookbook
 https://arrow.apache.org/cookbook/r/index.html
 
+---
+# Apache R Arrow
+- library(arrow, warn.conflicts = FALSE)
+- library(dplyr, warn.conflicts = FALSE)
+
+---
 # Get started with Arrow
 https://arrow.apache.org/docs/r/articles/arrow.html
 - **arrow_table()** create Table *manually* ( vs data.frame() )
@@ -23,10 +31,7 @@ https://arrow.apache.org/docs/r/articles/arrow.html
   - ds %>% group_by / summarize / filter / arrange / ... %>% **collect()** or **compute()**
   - lazy evaluation
 
-# Apache R Arrow
-- library(arrow, warn.conflicts = FALSE)
-- library(dplyr, warn.conflicts = FALSE)
-
+---
 ## Reading and writing data files
 https://arrow.apache.org/docs/r/articles/read_write.html
 ### Read
@@ -43,6 +48,7 @@ https://arrow.apache.org/docs/r/articles/read_write.html
 - write_feather()
 - write_csv_arrow()
 
+---
 ## Data analysis with dplyr syntax
 https://arrow.apache.org/docs/r/articles/data_wrangling.html
 - **Table** object: in-memory 
@@ -72,6 +78,7 @@ https://arrow.apache.org/docs/r/articles/data_wrangling.html
 - window functions not supported, pass Table to to **DuckDB** (without performance penalty) and back to **Arrow**
   - arrow_table %>% ... %>% **to_duckdb()** %>% ... %>% to_arrow() %>% **compute() / collect()**
 
+---
 ## Working with multi-file data sets
 - https://arrow.apache.org/docs/r/articles/dataset.html
 
