@@ -21,6 +21,8 @@ https://arrow.apache.org/docs/r/articles/read_write.html
 
 ## Data analysis with dplyr syntax
 https://arrow.apache.org/docs/r/articles/data_wrangling.html
+- **Table** object: in-memory 
+- **Dataset** object: on-disk 
 ### One-table dplyr verbs
 - arrow_table <- arrow_table(dataframe, as_data_frame = FALSE)
 - arrow_table %>% filter / rename / mutate / arrange(... / desc()) / select
