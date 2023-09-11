@@ -13,7 +13,7 @@ https://arrow.apache.org/docs/r/articles/read_write.html
 - DEFAULT: as_data_frame = TRUE (return R data frame or tibble)
 - as_data_frame = FALSE (return Arrow Table)
 - col_select = c("...", "...") or starts_with() / end_with() / contains()
-- schema = schema(...)
+- schema = schema(...) (set column types)
 ### Write
 - write_parquet()
 - write_feather()
