@@ -10,7 +10,7 @@ https://arrow.apache.org/docs/r/articles/read_write.html
 - read_feather()
 - read_csv_arrow()
 #### #argument
-- DEFAULT: as_data_frame = TRUE (return R data frame)
+- DEFAULT: as_data_frame = TRUE (return R data frame or tibble)
 - as_data_frame = FALSE (return Arrow Table)
 - col_select = c("...", "...") or starts_with() / end_with() / contains()
 ### Write
