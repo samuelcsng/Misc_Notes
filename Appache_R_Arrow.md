@@ -29,29 +29,46 @@ https://arrow.apache.org/docs/r/articles/data_wrangling.html
 
 1. %>% compute()    > return Arrow Table, suitable for chaining to, or passing to, other arrow or dplyr functions
 2. %>% collect()    > return R data frame, suitable for viewing or passing to other R functions for analysis or visualization
+3. **lazy evaluation** > arrow_table = *query* object
 
 #### aggregates
 - group_by()
 - summarize()
 - count()    >  count(column_names) %>% collect()
 
-### arrow_table %>% ... %>% to_duckdb() %>% ... %>% to_arrow() %>% compute() / collect()
+### Two-table dplyr verbs
+- dplyr joins 
+
+### Registering custom bindings
+- register_scalar_function(name = "funtion_name", fun = functionName, in_type = utf8(), out_type = utf8(), auto_convert = TRUE)
+
+### Handling unsupported expressions
+- for **Table** object: **arrow_table()** if using unimplemented function within dplyr verb, arrow will call **collect()** *automatically* for an R dataframe and then go back to the dplyr verb(with a Warning)
+- for **Dataset** objects: **open_dataset()** will throw an **error** > *explicitly* need a **%>% collect()**
+- window functions not supported, pass Table to to **DuckDB** (without performance penalty) and back to **Arrow**
+  - arrow_table %>% ... %>% **to_duckdb()** %>% ... %>% to_arrow() %>% **compute() / collect()**
 
 ## Working with multi-file data sets
 - https://arrow.apache.org/docs/r/articles/dataset.html
-- Hive-style partitioning structure, folder name: "key=value"
 
 ### Opening Datasets
-- open_dataset("data_directory")
-1. DEFAULT: looks for Parquet files
-2. to override: format = "parquet" / "feather" or "ipc" / "csv" / "text"
-- open_csv_dataset() vs read_csv_arrow()
+- **open_dataset("data_directory")**
+  - DEFAULT: looks for Parquet files
+    - to override: format = "parquet" / "feather" or "ipc" / "csv" / "text"
+  - expect file paths with **Hive-style** partitioning structure(folder name with "key=value")
+    - if not, use argument **partitioning = c("...", "...")**
+
+- for text files:
+  - **open_csv_dataset()** (vs read_csv_arrow())
 
 ### Querying Datasets
-ds %>% filter / select / mutate / group_by / summarise %>% collect() %>% print()
+ds %>% filter / select / mutate / group_by / summarise %>% **collect()** %>% print()
 - lazy evaluation
 - all work is pushed down to the individual data files, and depending on the file format, chunks of data within files. don’t have to load the whole data set in memory to slice from it.
 - because of partitioning, can ignore some files entirely.
+- for *unsupported* dplyr verbs or *umimplemented* functions
+  - **Dataset** throw error > explicitly call **collect()** or **compute()**
+  - **Table** (already in-memory) throw warning, automacally calls **collect()** before processing the dplyr verb
 
 ### Batch processing (experimental)
 - %>% map_batches()
@@ -61,13 +78,17 @@ ds %>% filter / select / mutate / group_by / summarise %>% collect() %>% print()
 > Explicitly declare column names and data types
 - open_dataset(..., partitioning = ...)
 > Explicitly declare partition format
+- multiple data sources
+> open_dataset(path = c("...", "..."), ...) or open_dataset(list(ds1, ds2))\
+> or concatenate: big_dataset <- c(ds1, ds2)
 
 ### Writing Datasets
 ds %>% group_by(...) %>% filter / select %>% ... %>% write_dataset("data_path", format = "parquet" / "feather" / "csv")
 - Hive-style partitioning
 
 ### Partitioning performance considerations
-- Avoid partitioning layouts with more than 10,000 distinct partitions
 - Avoid files smaller than 20MB and larger than 2GB
+- Avoid partitioning layouts with more than 10,000 distinct partitions
+
 
 
