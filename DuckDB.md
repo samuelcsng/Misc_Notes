@@ -5,14 +5,17 @@ library(DBI)\
 library(duckdb)
 
 con <- dbConnect(duckdb::duckdb(), dbdir = "./backup/hsif.duckdb")\
-   #dbConnect(duckdb::duckdb(), dbdir = "duckdb")\
+   #dbConnect(duckdb::duckdb(), dbdir = "duckdb")
+   
 db_write_is_success <-\
    DBI::dbWriteTable(\
       con,\
       "hsif",\
       master_data,\
-      overwrite = TRUE)\
-dbListTables(con)\
+      overwrite = TRUE)
+      
+dbListTables(con)
+
 if (db_write_is_success == FALSE) {\
    print("DuckDB Database backup error!")\
 }
@@ -25,8 +28,8 @@ library(DBI)\
 library(duckdb)
    
    #con<-DBI::dbConnect(duckdb::duckdb(), dbdir = "./backup/hsif.duckdb") # has warnings\
-   drv <- duckdb::duckdb(dbdir = "./backup/hsif.duckdb")\
-   con <- DBI::dbConnect(drv)
+   **drv <- duckdb::duckdb(dbdir = "./backup/hsif.duckdb")**\
+   **con <- DBI::dbConnect(drv)**
    
    #dbListTables(con)\
    #dbListFields(con,"hsif")
@@ -44,7 +47,7 @@ library(duckdb)
    duckdb_data_sql %>% str()
    
    #DBI::dbDisconnect(con, shutdown = TRUE)\
-   DBI::dbDisconnect(con)\
-   duckdb::duckdb_shutdown(drv)
+   **DBI::dbDisconnect(con)**\
+   **duckdb::duckdb_shutdown(drv)**
    
    
