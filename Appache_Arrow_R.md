@@ -1,7 +1,53 @@
 ---
 # R for Data Science (2e)
 https://r4ds.hadley.nz/arrow
+- library(tidyverse)
+- library(arrow)
+- library(dbplyr, warn.conflicts = FALSE)
+- library(duckdb) #Loading required package: DBI
 
+## Download files
+ - dir.create("directory", showWarnings = FALSE)
+ - curl::multi_download("...", "directory/file.ext", resume = TRUE)
+
+## Opening a dataset
+- ds <- **open_dataset**(sources = "directory/file.ext", format = "parquet" / "csv" / ...)
+- glimpse()
+- ds |> filter / group_by / mutate / summarise / arrange / count |> **collect()**
+
+## parquet and partitioning
+- column-oriented, R's data frame (vs CSV row-by-row)
+- "chunked"
+- **partition** depend on data, access patterns, and the systems that read the data
+  - avoid files smaller than 20MB and larger than 2GB
+  - avoid partitions that produce more than 10000 files
+  - partition by variables that filter by
+- dataset |> group_by(...) |> **write_dataset**(path = pq_path, format = "parquet")
+> tibble(\
+>   files = list.files(pq_path, recursive = TRUE),\
+>   size_MB = file.size(file.path(pq_path, files)) / 1024^2\
+> )
+> - Apache Hive structure, "key=value"
+
+## Using dplyr with arrow
+- pq_ds <- **open_dataset**(pq_path)
+- query <- pq_ds |> filter / group_by / summarize / arrange / ...
+- transform into a **query** for Apache Arrow C++ library (vs **dbplyr** package)
+- execute: query |> **collect()**
+
+## Performance
+- ... |> collect() |> **system.time()**
+- performance improvement by:
+  - multi-file partitioning
+  - individual files format:
+    - binary format: directly read into memory
+    - column-wise format and rich metadata: arrow only read columns requred in the query
+
+## Using dbplyr with arrow
+- **arrow::to_duckdb()**
+- pq_ds |> **to_duckdb()** |> filter / group_by / summarize / arrange ... |> collect()
+- transfer doesn't involve any memory copying
+- enabling seamless transitions from one computing environment to another
 ---
 # Apache Arrow R Cookbook
 https://arrow.apache.org/cookbook/r/index.html
