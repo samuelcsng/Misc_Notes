@@ -7,7 +7,7 @@ https://r4ds.hadley.nz/arrow
 https://arrow.apache.org/cookbook/r/index.html
 
 ---
-# Apache R Arrow
+# Apache Arrow R
 - library(arrow, warn.conflicts = FALSE)
 - library(dplyr, warn.conflicts = FALSE)
 
