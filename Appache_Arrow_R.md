@@ -1,21 +1,95 @@
 ---
 # R for Data Science (2e)
 https://r4ds.hadley.nz/arrow
+
+## Data import
+https://r4ds.hadley.nz/data-import
+- **readr** package
+- library(tidyverse)
+
+### Reading data from a file
+- CSV
+- **read_csv**("directory/data_path")
+- **read_csv**("URL_path")
+- for NAs: arguments: **na** = c("N/A", "")
+- for non-syntactic column names:
+   - **backticks** ( \`...\` ):  \`colname with space\`
+   - **janitor::clean_names**(): tibble |> janitor::clean_names() # turn into **snake_case**
+- **factor** variables: mutate(... = **factor**(...))  
+- **parse_number**(if_else(...))
+- read text strings:
+> read_csv(\
+> "a,b,c\
+> 1,2,3\
+> 4,5,6"\
+> )
+- **skip** = n
+- **comment** = "#"
+- Column Names:
+  - **col_names** = FALSE # **auto** label with X1 ... Xn
+  - **col_names** = c("colname_1", "colname_2", ...)
+- read_csv2, read_tsv, read_delim, read_fwf, read_table, read_log(Apache-style log files)
+
+- Controlling column types
+ - Guessing types
+ - **col_types** = list(colname = col_*(), ...)
+ - **col_types** = cols(colname = col_*(), ...)
+ - problems(df)
+ - Column types:
+   - col_logical(), col_double()
+   - col_integer()
+   - col_character()
+   - col_factor(), col_date(), col_datetime()
+   - col_number()
+   - col_skip()
+   - for default type: **.default** = col_*()
+  - specify columns:
+    - col_types = **cols_only**(colname = col_*(), ...)
+
+### Reading data from multiple file
+> file_list <- c(file_path1, file_path2, ...) or URL_list <- c(URL1, URL2, ...)\
+> read_csv(file_list, id = "file") or read_csv(URL_list)
+- **list.files()** find the files with pattern matching in the file names
+  - **list.files**("data_folder_path", **pattern** = "...", full.names = TRUE
+
+### Writing to a file
+- **write_csv**(dataframe, "file_path")
+- write_tsv()
+- missing values: **na** = ...
+- append to existing file: **append** = TRUE
+- Data Type information is lost:
+  - **readr::** **write_rds()** and **read_rds()**
+  - **base::** **readRDS()** and **saveRDS()**
+  - **arrow::write_parquet()** and **read_parquet()**
+
+### Data entry
+- tibble() by column
+- tribble() by row
+> tribble(\
+>   ~col1, ~col2, ...,\
+>   ..., ..., ...,\
+>   ...\
+> )
+
+
+---
+## Arrow
+https://r4ds.hadley.nz/arrow
 - library(tidyverse)
 - library(arrow)
 - library(dbplyr, warn.conflicts = FALSE)
 - library(duckdb) #Loading required package: DBI
 
-## Download files
+### Download files
  - dir.create("directory", showWarnings = FALSE)
  - curl::multi_download("...", "directory/file.ext", resume = TRUE)
 
-## Opening a dataset
+### Opening a dataset
 - ds <- **open_dataset**(sources = "directory/file.ext", format = "parquet" / "csv" / ...)
 - glimpse()
 - ds |> filter / group_by / mutate / summarise / arrange / count |> **collect()**
 
-## parquet and partitioning
+### parquet and partitioning
 - column-oriented, R's data frame (vs CSV row-by-row)
 - "chunked"
 - **partition** depend on data, access patterns, and the systems that read the data
@@ -29,13 +103,13 @@ https://r4ds.hadley.nz/arrow
 > )
 > - Apache Hive structure, "key=value"
 
-## Using dplyr with arrow
+### Using dplyr with arrow
 - pq_ds <- **open_dataset**(pq_path)
 - query <- pq_ds |> filter / group_by / summarize / arrange / ...
 - transform into a **query** for Apache Arrow C++ library (vs **dbplyr** package)
 - execute: query |> **collect()**
 
-## Performance
+### Performance
 - ... |> collect() |> **system.time()**
 - performance improvement by:
   - multi-file partitioning
@@ -43,7 +117,7 @@ https://r4ds.hadley.nz/arrow
     - binary format: directly read into memory
     - column-wise format and rich metadata: arrow only read columns requred in the query
 
-## Using dbplyr with arrow
+### Using dbplyr with arrow
 - **arrow::to_duckdb()**
 - pq_ds |> **to_duckdb()** |> filter / group_by / summarize / arrange ... |> collect()
 - transfer doesn't involve any memory copying
